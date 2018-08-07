@@ -11,7 +11,7 @@ class Node:
         self.departures = 0
         self.edges = []
         self.weights = []
-        return self
+        return None
 
     def __str__(self):
         '''converts node to string for debugging'''
@@ -37,11 +37,12 @@ class MarkovChain:
     def __init__(self):
         '''creates a new markov chain'''
         self.nodes = {}
-        return self
+        return None
 
     def __str__(self):
         '''converts to string for debugging'''
-        pass
+        for i in self.nodes:
+            print(self.nodes[i])
 
     def addMovement(self,origin,destination):
         '''adds a movement from origin to destination'''
@@ -50,3 +51,8 @@ class MarkovChain:
         if not destination in self.nodes:
             self.nodes[destination] = Node(destination)
         self.nodes[origin].addDeparture(destination)
+    def printTransitionProbs(self):
+        for nodeLabel in self.nodes:
+            originNode=self.nodes[nodeLabel]
+            for i in range(len(originNode.edges)):
+                print("Transition probability for Node "+str(nodeLabel)+" to Node "+str(originNode.edges[i])+": "+str(originNode.weights[i]/originNode.departures))
