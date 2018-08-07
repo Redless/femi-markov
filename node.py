@@ -1,6 +1,5 @@
 import pickle
 
-
 class Node:
     '''class representing a node in a Markov Chain'''
 
@@ -61,3 +60,15 @@ class MarkovChain:
         '''uses pickle to save the markov chain to a file'''
         with open(destfilename,"wb") as destfile:
             pickle.dump(self,destfile)
+
+def addFile(filename):
+    '''Creates a MarkovChain object based on an external CSV file'''
+    chain=MarkovChain()
+    with open(filename,'r') as source:
+        lines=source.readlines()
+        for i in range(len(lines)):
+            lines[i]=lines[i].rstrip('\n')
+            lines[i]=lines[i].split(',')
+            for j in range(int(lines[i][2])):
+                chain.addMovement(lines[i][0],lines[i][1])
+    return chain
