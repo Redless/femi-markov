@@ -9,8 +9,7 @@ class Node:
         if label:
             self.label = label
         self.departures = 0
-        self.edges = []
-        self.weights = []
+        self.jumps={}
         return None
 
     def __str__(self):
@@ -24,12 +23,11 @@ class Node:
 
     def addDeparture(self,destination):
         '''adds a departure to the node'''
-        try:
-            self.weights[self.edges.index(destination)]+=1
-        except ValueError:
-            self.weights.append(1)
-            self.edges.append(destination)
         self.departures += 1
+        if destination not in self.jumps.keys():
+            self.jumps[destination]=1
+        else:
+            self.jumps[destination]+=1
 
 class MarkovChain:
     '''class respresenting a Markov Chain'''
@@ -57,9 +55,8 @@ class MarkovChain:
     def printTransitionProbs(self):
         for nodeLabel in self.nodes:
             originNode=self.nodes[nodeLabel]
-            for i in range(len(originNode.edges)):
-                print("Transition probability for Node "+str(nodeLabel)+" to Node "+str(originNode.edges[i])+": "+str(originNode.weights[i]/originNode.departures))
-
+            for i in originNode.jumps:
+                print('Transition prob from '+str(nodeLabel)+' to '+str(i)+': '+str(originNode.jumps[i]/originNode.departures))
     def saveChain(self,destfilename):
         '''uses pickle to save the markov chain to a file'''
         with open(destfilename,"wb") as destfile:
