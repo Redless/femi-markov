@@ -1,4 +1,4 @@
-
+import pickle
 
 
 class Node:
@@ -32,10 +32,13 @@ class Node:
 class MarkovChain:
     '''class respresenting a Markov Chain'''
 
-    def __init__(self):
+    def __init__(self,sourcefile=None):
         '''creates a new markov chain'''
-        self.nodes = {}
-        return None
+        if not sourcefile:
+            self.nodes = {}
+        else:
+            with open(sourcefile,"rb") as fileIn:
+                self = pickle.load(fileIn)
 
     def __str__(self):
         '''converts to string for debugging'''
@@ -54,3 +57,7 @@ class MarkovChain:
             originNode=self.nodes[nodeLabel]
             for i in originNode.jumps:
                 print('Transition prob from '+str(nodeLabel)+' to '+str(i)+': '+str(originNode.jumps[i]/originNode.departures))
+    def saveChain(self,destfilename):
+        '''uses pickle to save the markov chain to a file'''
+        with open(destfilename,"wb") as destfile:
+            pickle.dump(self,destfile)
