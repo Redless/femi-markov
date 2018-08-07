@@ -56,12 +56,23 @@ class MarkovChain:
             originNode=self.nodes[nodeLabel]
             for i in originNode.jumps:
                 print('Transition prob from '+str(nodeLabel)+' to '+str(i)+': '+str(originNode.jumps[i]/originNode.departures))
-    def saveChain(self,destfilename):
+    def saveChainPickle(self,destfilename):
         '''uses pickle to save the markov chain to a file'''
         with open(destfilename,"wb") as destfile:
             pickle.dump(self,destfile)
+    def saveChainCSV(self,destfilename):
+        '''saves markov chain to a CSV file'''
+        tempStr=''
+        with open(destfilename,'w') as destfile:
+            for originNodeLabel in self.nodes:
+                originNode=self.nodes[originNodeLabel]
+                for otherNode in originNode.jumps:
+                    tempStr+=str(originNodeLabel)+','+str(otherNode)+','+str(originNode.jumps[otherNode])+'\n'
+            destfile.write(tempStr)
+            tempStr=''
 
-def addFile(filename):
+
+def addCSVFile(filename):
     '''Creates a MarkovChain object based on an external CSV file'''
     chain=MarkovChain()
     with open(filename,'r') as source:
@@ -71,4 +82,10 @@ def addFile(filename):
             lines[i]=lines[i].split(',')
             for j in range(int(lines[i][2])):
                 chain.addMovement(lines[i][0],lines[i][1])
+    return chain
+
+def addPickleFile(filename):
+    '''Creates a MarkovChain object based on a previously generated pickle file'''
+    with open(filename,'rb') as openfile:
+        chain=pickle.load(openfile)
     return chain
