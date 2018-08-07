@@ -71,7 +71,6 @@ class MarkovChain:
             destfile.write(tempStr)
             tempStr=''
 
-
 def addCSVFile(filename):
     '''Creates a MarkovChain object based on an external CSV file'''
     chain=MarkovChain()
