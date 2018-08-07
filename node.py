@@ -11,7 +11,7 @@ class Node:
         self.departures = 0
         self.edges = []
         self.weights = []
-        return self
+        return None
 
     def __str__(self):
         '''converts node to string for debugging'''
@@ -37,7 +37,7 @@ class MarkovChain:
     def __init__(self):
         '''creates a new markov chain'''
         self.nodes = {}
-        return self
+        return None
 
     def __str__(self):
         '''converts to string for debugging'''
