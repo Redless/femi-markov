@@ -7,9 +7,9 @@ while True:
     print('2: Print transition probabilities')
     print('3: Open chain from pickle')
     print('4: Open chain from CSV')
-    print('3: Save chain to pickle')
-    print('4: Save chain to CSV')
-    print('5: Exit\n')
+    print('5: Save chain to pickle')
+    print('6: Save chain to CSV')
+    print('7: Exit\n')
     option=int(input('Enter option number: '))
     if option==1:
         originNode=input('\nEnter origin node: ')
@@ -20,10 +20,10 @@ while True:
         chain.printTransitionProbs()
     elif option==3:
         fileName=input('\nEnter filename: ')
-        addPickleFile(fileName)
+        chain=addPickleFile(fileName)
     elif option==4:
         fileName=input('\nEnter filename: ')
-        addCSVFile(fileName)
+        chain=addCSVFile(fileName)
     elif option==5:
         fileName=input('\nEnter filename: ')
         chain.saveChainPickle(fileName)
