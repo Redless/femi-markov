@@ -1,5 +1,5 @@
 import pickle
-from numpy import linalg
+import numpy as np
 
 class Node:
     '''class representing a node in a Markov Chain'''
@@ -93,17 +93,21 @@ class MarkovChain:
                 tempStr+=str(matrix[i][j])
                 tempStr+='\t'
             print(tempStr)
-    def getSteadyState(self):
+    def getSteadyState(self): #little broken? don't know if fully works
         matrix,nodes=self.getTransitionMatrix()
         zeroes=[]
-        for i in range(len(matrix)):
-            zeroes.append([0])
-            matrix[i][i]-=1
         try:
-            x=linalg.solve(matrix,zeroes)
+            w,v=np.linalg.eig(np.array(matrix))
+            for i in range(len(w)):
+                if w[i]==1:
+                    x=v[:,i]
+                    total=sum(x)
+                    break
             for i in range(len(nodes)):
+                x[i]/=total
                 print(str(nodes[i]+': '+str(x[i])))
-        except linalg.LinAlgError:
+        except np.linalg.LinAlgError as err:
+            print(err)
             print('No steady-state probabilities')
 
 
