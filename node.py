@@ -1,4 +1,5 @@
 import pickle
+from numpy import linalg
 
 class Node:
     '''class representing a node in a Markov Chain'''
@@ -83,15 +84,28 @@ class MarkovChain:
                 else:
                     row.append(0)
             matrix.append(row)
-        return matrix
+        return matrix,nodes
     def printTransitionMatrix(self):
-        matrix=self.getTransitionMatrix()
+        matrix=self.getTransitionMatrix()[0]
         for i in range(len(matrix)):
             tempStr=''
             for j in range(len(matrix[i])):
                 tempStr+=str(matrix[i][j])
                 tempStr+='\t'
             print(tempStr)
+    def getSteadyState(self):
+        matrix,nodes=self.getTransitionMatrix()
+        zeroes=[]
+        for i in range(len(matrix)):
+            zeroes.append([0])
+            matrix[i][i]-=1
+        try:
+            x=linalg.solve(matrix,zeroes)
+            for i in range(len(nodes)):
+                print(str(nodes[i]+': '+str(x[i])))
+        except linalg.LinAlgError:
+            print('No steady-state probabilities')
+
 
 def addCSVFile(filename):
     '''Creates a MarkovChain object based on an external CSV file'''
