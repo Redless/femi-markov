@@ -70,6 +70,28 @@ class MarkovChain:
                     tempStr+=str(originNodeLabel)+','+str(otherNode)+','+str(originNode.jumps[otherNode])+'\n'
             destfile.write(tempStr)
             tempStr=''
+    def getTransitionMatrix(self):
+        nodes=list(self.nodes.keys())
+        matrix=[]
+        for i in range(len(nodes)):
+            origin=self.nodes[nodes[i]]
+            row=[]
+            for j in range(len(nodes)):
+                jumpKeys=list(origin.jumps.keys())
+                if nodes[j] in jumpKeys:
+                    row.append(origin.jumps[nodes[j]]/origin.departures)
+                else:
+                    row.append(0)
+            matrix.append(row)
+        return matrix
+    def printTransitionMatrix(self):
+        matrix=self.getTransitionMatrix()
+        for i in range(len(matrix)):
+            tempStr=''
+            for j in range(len(matrix[i])):
+                tempStr+=str(matrix[i][j])
+                tempStr+='\t'
+            print(tempStr)
 
 def addCSVFile(filename):
     '''Creates a MarkovChain object based on an external CSV file'''
