@@ -18,13 +18,13 @@ while True:
         destinationNode=input('Enter destination node: ')
         chain.addMovement(originNode,destinationNode)
     elif option==2:
-        print('\n',end='')
+        print('\n')
         chain.printTransitionProbs()
     elif option==3:
-        print('\n',end='')
+        print('\n')
         chain.printTransitionMatrix()
     elif option==4:
-        print('\n',end='')
+        print('\n')
         chain.getSteadyState()
     elif option==5:
         fileName=input('\nEnter filename: ')
