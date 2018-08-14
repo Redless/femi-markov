@@ -1,4 +1,4 @@
-from node import MarkovChain,addCSVFile,addPickleFile
+from node import MarkovChain,addCSVFile,addPickleFile,addMatrix
 
 chain=MarkovChain()
 

@@ -50,21 +50,20 @@ class FixedNode:
     '''class representing a node with a fixed transition probabilities.
     use this node if you already know what you want all of your transition probabilities to be'''
 
-    def __init__(self, nodes, edgeweights, selfweight):
-        self.selfweight = selfweight
-        self.jumps = {}
-        for i in range(len(nodes)):
-            self.jumps[nodes[i]] = edgeweights[i]
+    def __init__(self,label):
+        self.label = label
         return None
+
+    def addWeights(self, jumps, weights):
+        self.jumps = {}
+        for i in range(len(jumps)):
+            self.jumps[jumps[i]] = weights[i]
 
     def addDeparture(self,destination):
         pass
 
     def getDepartureProb(self,destination):
-        if destination == self:
-            return self.selfweight
-        else:
-            return self.jumps[destination]
+        return self.jumps[destination]
 
     def getJump(self):
         '''returns where the jump is to, based on jump probabilities'''
@@ -74,7 +73,6 @@ class FixedNode:
             tot += self.getDepartureProb(i)
             if tot > randresult:
                 return i
-
 
 
 class MarkovChain:
@@ -181,3 +179,12 @@ def addPickleFile(filename):
     with open(filename,'rb') as openfile:
         chain=pickle.load(openfile)
     return chain
+
+def addMatrix(matrix):
+    '''creates a markovchain from a matrix'''
+    outChain = MarkovChain()
+    for i in range(len(matrix)):
+        outChain.nodes[i] = FixedNode(i)
+    for i in range(len(matrix)):
+        outChain.nodes[i].addWeights([outChain.nodes[j] for j in outChain.nodes],[matrix[j][i] for j in range(len(matrix))])
+    return outChain
