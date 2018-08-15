@@ -48,7 +48,8 @@ class Node:
 
 class FixedNode:
     '''class representing a node with a fixed transition probabilities.
-    use this node if you already know what you want all of your transition probabilities to be'''
+    use this node if you already know what you want all of your transition
+    probabilities to be'''
 
     def __init__(self,label):
         self.label = label

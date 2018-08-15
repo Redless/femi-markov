@@ -1,0 +1,9 @@
+There are three classes in our markov chain implementation: Node, FixedNode, and MarkovChain.
+
+The default mode of MarkovChain is to take in observations of transitions from various nodes, rather than taking explicit probabilities of transition. The MarkovChain can thereby be built over time from obtained data, rather than requiring explicit probabilities specified ahead of time. The Node class is used in this implementation.
+
+Use "addTransition" to add transition observations to this Matrix. You can also use saveChainPickle and saveChainCSV to save this type of train (pickle recommended). You can use getTransitionMatrix to convert this type of chain to a matrix.
+
+Alternately, you can load a matrix, pickle file, or CSV with addCSVFile, addPickleFile, and addMatrix. In particular, if a MarkovChain is loaded from a matrix, it will be static, with fixed probabilities based on the transition matrix.
+
+You can use simulateManyJumps to simulate several transitions with the markov chain. That method has three inputs: n, start, and batches. n is the number of transitions to model, start is the label of the node at which to start, and batches is the number of times to model those transitions. A string is returned as the output.
